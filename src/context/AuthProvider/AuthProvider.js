@@ -21,6 +21,7 @@ const AuthProvider = ({ children }) => {
         return signInWithPopup(auth, googleProvider)
     }
 
+
     const updateUser = (updateInfo) => {
         setLoading(true)
         return updateProfile(auth.currentUser, updateInfo)
@@ -31,6 +32,7 @@ const AuthProvider = ({ children }) => {
     }
 
     const logOut = () => {
+        localStorage.removeItem('genius-token')
         return signOut(auth)
     }
 

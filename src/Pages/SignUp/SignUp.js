@@ -1,14 +1,15 @@
-import { GoogleAuthProvider } from 'firebase/auth';
+
 import React from 'react';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { JwtToken } from '../../api/JWTtoken';
 import img from '../../assets/images/login/login.svg';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 
 
 const SignUp = () => {
-    const { createUser, googleSignIn, updateUser, } = useContext(AuthContext);
-    const googleProvider = new GoogleAuthProvider()
+    const { createUser, updateUser, } = useContext(AuthContext);
+
 
     const handleSignUp = event => {
         event.preventDefault();
@@ -21,20 +22,14 @@ const SignUp = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                JwtToken(user)
                 handelUpdateUser(name)
                 form.reset()
             })
             .catch(err => console.error(err));
     }
 
-    const handelGoogleSignIn = () => {
-        googleSignIn(googleProvider)
-            .then(result => {
-                const user = result.user
-                console.log(user)
-            })
-            .catch(error => console.error(error))
-    }
+
 
     const handelUpdateUser = (name) => {
         const updateInfo = {
@@ -78,10 +73,7 @@ const SignUp = () => {
                         <div className="form-control mt-6">
                             <input className="btn btn-primary" type="submit" value="Sign Up" />
                         </div>
-                        <p className='text-center my-2'>Or Sign Up with ...</p>
-                        <div className="form-control">
-                            <input onClick={handelGoogleSignIn} className="btn btn-outline" type="submit" value="Google" />
-                        </div>
+
 
                     </form>
                     <p className='text-center'>Already have an account? <Link className='text-orange-600 font-bold' to="/login">Login</Link> </p>

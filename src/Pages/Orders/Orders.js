@@ -8,7 +8,11 @@ const Orders = () => {
     const [orders, setOrders] = useState([])
 
     useEffect(() => {
-        fetch(`http://localhost:5000/orders?email=${user?.email}`)
+        fetch(`https://genius-car-server-zeta-six.vercel.app/orders?email=${user?.email}`, {
+            headers:{
+                authorization:`Bearer ${localStorage.getItem('genius-token')}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 console.log(data)
@@ -19,7 +23,7 @@ const Orders = () => {
     const handelDelete = id => {
         const proceed = window.confirm('Are u sure to delete??')
         if (proceed) {
-            fetch(`http://localhost:5000/orders/${id}`, {
+            fetch(`https://genius-car-server-zeta-six.vercel.app/orders/${id}`, {
                 method: 'DELETE'
             })
                 .then(res => res.json())
@@ -35,7 +39,7 @@ const Orders = () => {
     }
 
     const handelUpdate = id => {
-        fetch(`http://localhost:5000/orders/${id}`, {
+        fetch(`https://genius-car-server-zeta-six.vercel.app/orders/${id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'
